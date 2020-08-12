@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Covid19PH Tracker</title>
+        <script>
+            
+            document.addEventListener('DOMContentLoaded', function() {
+
+                fetch('https://api.covid19api.com/summary')
+                .then(response => response.json())
+                .then(data => {
+                    data.Countries.forEach(country => {
+                        if (country.Country === "Philippines") {
+                            console.log(country)
+                            const newConfirmed = country.NewConfirmed
+                            const newRecoveries = country.NewRecovered
+                            const newDeaths = country.NewDeaths
+
+                            document.querySelector('#date').innerHTML = moment(country.Date).format('LLL')
+                            document.querySelector('#newConfirmed').innerHTML = `New Confirmed Cases: ${newConfirmed}`
+                            document.querySelector('#newRecoveries').innerHTML = `New Recoveries: ${newRecoveries}`
+                            document.querySelector('#newDeaths').innerHTML = `New Deaths: ${newDeaths}`
+                        }
+                    })
+                })
+            })
+        </script>
+    </head>
+    <body>
+
+        <div id="content">
+
+            <h1>As of <span id="date"></span></h1>
+
+            <ul>
+                <li id="newConfirmed"></li>
+                <li id="newRecoveries"></li>
+                <li id="newDeaths"></li>
+            </ul>
+            
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+    </body>
+</html>
